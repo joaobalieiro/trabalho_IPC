@@ -63,6 +63,14 @@ void mostra_tabuleiro(int tabuleiro[8][8]) {
 
 // -------------------------------------------------------------
 
+// aqui vai a funcao para ver se a jogada eh valida
+
+// -------------------------------------------------------------
+
+// aqui vai a funcao para verificar se tem jogadas validas e quem ganhou
+
+// -------------------------------------------------------------
+
 // verifica se a jogada eh valida e registra ela na matriz
 void jogada(int tabuleiro[8][8], char jogador) {
     char adversario;
@@ -88,8 +96,19 @@ void jogada(int tabuleiro[8][8], char jogador) {
             continue;
         }
 
+        // aqui vai um if para verificar se a jogada eh valida, ainda falta criar a funcao
+
         // salva a jogada na matriz
         tabuleiro[linha][coluna] = jogador;
+
+        // aqui vai o codigo para capturar pecas adversarias
+
+        // mostra o tabuleiro atualizado
+        mostra_tabuleiro(tabuleiro);
+
+        // aqui vai um codigo para verificar se tem movimento validos
+        // minha ideia eh criar um funcao separada que verifica isso e aqui ficar apenas um if
+        // ai mostra quem ganhou e da break
 
         // passa a vez para o adversario
         if (jogador == 'P'){
@@ -99,9 +118,6 @@ void jogada(int tabuleiro[8][8], char jogador) {
             adversario = 'P';
         }
         jogador = adversario;
-
-        // mostra o tabuleiro atualizado
-        mostra_tabuleiro(tabuleiro);
     }
 }
 
