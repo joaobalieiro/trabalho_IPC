@@ -63,7 +63,44 @@ void mostra_tabuleiro(int tabuleiro[8][8]) {
 
 // -------------------------------------------------------------
 
-// aqui vai a funcao para ver se a jogada eh valida
+int movimento_valido(int tabuleiro[8][8], int linha, int coluna, char jogador)
+{
+    int i, j, x, y, tem_adversario;
+    int adversario = (jogador == 'P') ? 'B' : 'P';
+
+    // verifica se a celula esta vazia
+    if (tabuleiro[linha][coluna] != ' ') {
+        return 0;
+    }
+
+    // verifica em todas as direcoes se ha peças do oponente que podem ser capturadas
+    for (i = -1; i <= 1; i++) {
+        for (j = -1; j <= 1; j++) {
+            // ignora a propria posicao e verifica apenas as direcoes
+            if (i == 0 && j == 0) {
+                continue;
+            }
+
+            x = linha + i;
+            y = coluna + j;
+            tem_adversario = 0;
+
+            // verifica se tem uma peca adversaria
+            while (x >= 0 && x < 8 && y >= 0 && y < 8 && tabuleiro[x][y] == adversario) {
+                x += i;
+                y += j;
+                tem_adversario = 1;
+            }
+
+            // volta como verdadeiro se tem uma jogada valida
+            if (tem_adversario && x >= 0 && x < 8 && y >= 0 && y < 8 && tabuleiro[x][y] == jogador) {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
 
 // -------------------------------------------------------------
 
@@ -74,7 +111,7 @@ void mostra_tabuleiro(int tabuleiro[8][8]) {
 // verifica se a jogada eh valida e registra ela na matriz
 void jogada(int tabuleiro[8][8], char jogador) {
     char adversario;
-    int linha, coluna;
+    int linha, coluna, tem_adversario, x, y, i, j;
 
     // forca a comecar com as pecas pretas
     jogador = 'P';
@@ -90,18 +127,57 @@ void jogada(int tabuleiro[8][8], char jogador) {
             printf("Coordenadas invalidas. Tente novamente.\n");
             continue;
         }
-
-        if (tabuleiro[linha][coluna] != ' ') {
+        if (movimento_valido(tabuleiro,linha,coluna,jogador) == false) {
             printf("Jogada invalida. Tente novamente.\n");
             continue;
         }
 
-        // aqui vai um if para verificar se a jogada eh valida, ainda falta criar a funcao
-
         // salva a jogada na matriz
         tabuleiro[linha][coluna] = jogador;
 
-        // aqui vai o codigo para capturar pecas adversarias
+        // define o adversario
+        if (jogador == 'P'){
+            adversario = 'B';
+        }
+        else {
+            adversario = 'P';
+        }
+
+        // faz o loop para verificar quais pecas podem ser capturadas
+        // o codigo eh praticamente igual ao para verificar a validade do movimento
+        // a unica adicao eh para capturar as pecas
+        for (i = -1; i <= 1; i++) {
+            for (j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+
+                x = linha + i;
+                y = coluna + j;
+                tem_adversario = 0;
+
+                while (x >= 0 && x < 8 && y >= 0 && y < 8 && tabuleiro[x][y] == adversario) {
+                    x += i;
+                    y += j;
+                    tem_adversario = 1;
+                }
+
+                if (tem_adversario && x >= 0 && x < 8 && y >= 0 && y < 8 && tabuleiro[x][y] == jogador) {
+                    // gira as peças do adversario
+                    x -= i;
+                    y -= j;
+                    // captura as pecas do adversario
+                    while (tabuleiro[x][y] == adversario) {
+                        tabuleiro[x][y] = jogador;
+                        x -= i;
+                        y -= j;
+                    }
+                }
+            }
+        }
+
+        // passa a vez para o adversario
+        jogador = adversario;
 
         // mostra o tabuleiro atualizado
         mostra_tabuleiro(tabuleiro);
@@ -109,15 +185,6 @@ void jogada(int tabuleiro[8][8], char jogador) {
         // aqui vai um codigo para verificar se tem movimento validos
         // minha ideia eh criar um funcao separada que verifica isso e aqui ficar apenas um if
         // ai mostra quem ganhou e da break
-
-        // passa a vez para o adversario
-        if (jogador == 'P'){
-            adversario = 'B';
-        }
-        else {
-            adversario = 'P';
-        }
-        jogador = adversario;
     }
 }
 
