@@ -136,12 +136,7 @@ void jogada(int tabuleiro[8][8], char jogador) {
         tabuleiro[linha][coluna] = jogador;
 
         // define o adversario
-        if (jogador == 'P'){
-            adversario = 'B';
-        }
-        else {
-            adversario = 'P';
-        }
+        adversario = (jogador == 'P') ? 'B' : 'P';
 
         // faz o loop para verificar quais pecas podem ser capturadas
         // o codigo eh praticamente igual ao para verificar a validade do movimento
