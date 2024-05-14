@@ -68,6 +68,11 @@ int movimento_valido(int tabuleiro[8][8], int linha, int coluna, char jogador)
     int i, j, x, y, tem_adversario;
     int adversario = (jogador == 'P') ? 'B' : 'P';
 
+    // verifica se as coordenadas estao no tabuleiro
+    if (linha < 0 || linha >= 8 || coluna < 0 || coluna >= 8) {
+        return 0;
+    }
+
     // verifica se a celula esta vazia
     if (tabuleiro[linha][coluna] != ' ') {
         return 0;
@@ -123,10 +128,6 @@ void jogada(int tabuleiro[8][8], char jogador) {
         printf("\n");
 
         // verifica se as coordenadas são válidas
-        if (linha < 0 || linha >= 8 || coluna < 0 || coluna >= 8) {
-            printf("Coordenadas invalidas. Tente novamente.\n");
-            continue;
-        }
         if (movimento_valido(tabuleiro,linha,coluna,jogador) == false) {
             printf("Jogada invalida. Tente novamente.\n");
             continue;
