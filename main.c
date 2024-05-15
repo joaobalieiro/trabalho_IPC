@@ -24,6 +24,9 @@ void cria_tabuleiro(int tabuleiro[8][8]) {
 
 // -------------------------------------------------------------
 
+// essa funcao serve para limpar o terminal apos cada movimento valido
+// como o comando eh diferente para windows e linus eu coloquei para verificar qual o sistema
+// e aplicar o comando correspondente
 void limpa_tela() {
     #ifdef __linux__
         system("clear");
@@ -139,11 +142,14 @@ void jogada(int tabuleiro[8][8], char jogador) {
         printf("\nJogador %c, insira a linha e a coluna da sua jogada separadas por um espaco:", jogador);
         scanf("%d %d", &linha, &coluna);
         printf("\n");
+
         // verifica se as coordenadas são válidas
         if (movimento_valido(tabuleiro,linha,coluna,jogador) == false) {
             printf("Jogada invalida. Tente novamente.\n");
             continue;
         }
+
+        // limpa a tela apos cada movimento
         limpa_tela();
 
         // salva a jogada na matriz
