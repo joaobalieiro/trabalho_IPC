@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 // -------------------------------------------------------------
@@ -19,6 +20,18 @@ void cria_tabuleiro(int tabuleiro[8][8]) {
     tabuleiro[4][4] = 'B';
     tabuleiro[3][4] = 'P';
     tabuleiro[4][3] = 'P';
+}
+
+// -------------------------------------------------------------
+
+void limpa_tela() {
+    #ifdef __linux__
+        system("clear");
+    #elif __WIN64__
+        system("cls");
+    #else
+
+    #endif
 }
 
 // -------------------------------------------------------------
@@ -126,12 +139,12 @@ void jogada(int tabuleiro[8][8], char jogador) {
         printf("\nJogador %c, insira a linha e a coluna da sua jogada separadas por um espaco:", jogador);
         scanf("%d %d", &linha, &coluna);
         printf("\n");
-
         // verifica se as coordenadas são válidas
         if (movimento_valido(tabuleiro,linha,coluna,jogador) == false) {
             printf("Jogada invalida. Tente novamente.\n");
             continue;
         }
+        limpa_tela();
 
         // salva a jogada na matriz
         tabuleiro[linha][coluna] = jogador;
@@ -194,8 +207,6 @@ int main() {
     cria_tabuleiro(tabuleiro);
 
     mostra_tabuleiro(tabuleiro);
-
-    printf("\n");
 
     jogada(tabuleiro, jogador);
 
