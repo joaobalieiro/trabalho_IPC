@@ -125,19 +125,50 @@ int movimento_valido(int tabuleiro[8][8], int linha, int coluna, char jogador)
 
 // -------------------------------------------------------------
 
-// aqui vai a funcao para verificar se tem jogadas validas e quem ganhou
+// verifica quem eh o vencedor
+int jogador_vencedor(int tabuleiro[8][8]) {
+    char vencedor;
+    int i, j, jogador_preto, jogador_branco;
+
+    jogador_preto = 0;
+    jogador_branco = 0;
+
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            if (tabuleiro[i][j] == 'P') {
+                jogador_preto++;
+            }
+            if (tabuleiro[i][j] == 'B') {
+                jogador_branco++;
+            }
+        }
+    }
+
+    if (jogador_branco > jogador_preto) {
+        vencedor = 'B';
+    }
+    else if (jogador_branco < jogador_preto) {
+        vencedor = 'P';
+    }
+    else {
+        return 0;
+    }
+
+    return vencedor;
+}
 
 // -------------------------------------------------------------
 
 // verifica se a jogada eh valida e registra ela na matriz
 void jogada(int tabuleiro[8][8], char jogador) {
     char adversario;
-    int linha, coluna, tem_adversario, x, y, i, j;
+    int linha, coluna, tem_adversario, x, y, i, j, jogadas_validas;
 
     // forca a comecar com as pecas pretas
     jogador = 'P';
+    jogadas_validas = 1;
 
-    while (true) {
+    while (jogadas_validas > 0) {
         // recebe as coordenadas da jogada
         printf("\nJogador %c, insira a linha e a coluna da sua jogada separadas por um espaco:", jogador);
         scanf("%d %d", &linha, &coluna);
@@ -191,16 +222,28 @@ void jogada(int tabuleiro[8][8], char jogador) {
             }
         }
 
-        // passa a vez para o adversario
-        jogador = adversario;
-
         // mostra o tabuleiro atualizado
         mostra_tabuleiro(tabuleiro);
+
+        jogadas_validas = 0;
+
+        for (i = 0; i < 8; i++) {
+            for (j = 0; j < 8; j++) {
+                if (movimento_valido(tabuleiro,i,j,adversario) == true) {
+                    jogadas_validas = jogadas_validas + 1;
+                }
+            }
+        }
+
+        // passa a vez para o adversario
+        jogador = adversario;
 
         // aqui vai um codigo para verificar se tem movimento validos
         // minha ideia eh criar um funcao separada que verifica isso e aqui ficar apenas um if
         // ai mostra quem ganhou e da break
     }
+
+    printf("O jogador %c venceu!", jogador_vencedor(tabuleiro));
 }
 
 // -------------------------------------------------------------
