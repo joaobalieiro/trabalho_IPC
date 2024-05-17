@@ -240,13 +240,7 @@ void jogada(int tabuleiro[8][8], char jogador) {
 
         // passa a vez para o adversario
         jogador = adversario;
-
-        // aqui vai um codigo para verificar se tem movimento validos
-        // minha ideia eh criar um funcao separada que verifica isso e aqui ficar apenas um if
-        // ai mostra quem ganhou e da break
     }
-
-    printf("O jogador %c venceu!", jogador_vencedor(tabuleiro));
 }
 
 // -------------------------------------------------------------
@@ -261,6 +255,8 @@ int main() {
     mostra_tabuleiro(tabuleiro);
 
     jogada(tabuleiro, jogador);
+
+    printf("O jogador %c venceu!", jogador_vencedor(tabuleiro));
 
     return 0;
 }
