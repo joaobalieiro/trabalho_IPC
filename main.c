@@ -166,6 +166,9 @@ void jogada(int tabuleiro[8][8], char jogador) {
 
     // forca a comecar com as pecas pretas
     jogador = 'P';
+
+    // isso vai servir para iniciar o while
+    // depois o valor vai variar de acordo com as jogadas validas
     jogadas_validas = 1;
 
     while (jogadas_validas > 0) {
