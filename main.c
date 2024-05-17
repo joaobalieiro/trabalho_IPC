@@ -256,7 +256,7 @@ int main() {
 
     jogada(tabuleiro, jogador);
 
-    printf("O jogador %c venceu!", jogador_vencedor(tabuleiro));
+    printf("\n O jogador %c venceu!", jogador_vencedor(tabuleiro));
 
     return 0;
 }
