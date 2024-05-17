@@ -79,8 +79,7 @@ void mostra_tabuleiro(int tabuleiro[8][8]) {
 
 // -------------------------------------------------------------
 
-int movimento_valido(int tabuleiro[8][8], int linha, int coluna, char jogador)
-{
+int movimento_valido(int tabuleiro[8][8], int linha, int coluna, char jogador) {
     int i, j, x, y, tem_adversario;
     int adversario = (jogador == 'P') ? 'B' : 'P';
 
@@ -133,6 +132,7 @@ int jogador_vencedor(int tabuleiro[8][8]) {
     jogador_preto = 0;
     jogador_branco = 0;
 
+    // conta quantas pecas de cada tipo tem no tabuleiro
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 8; j++) {
             if (tabuleiro[i][j] == 'P') {
@@ -144,6 +144,7 @@ int jogador_vencedor(int tabuleiro[8][8]) {
         }
     }
 
+    // verifica quem tem mais pecas e marca como vencedor
     if (jogador_branco > jogador_preto) {
         vencedor = 'B';
     }
@@ -171,6 +172,7 @@ void jogada(int tabuleiro[8][8], char jogador) {
     // depois o valor vai variar de acordo com as jogadas validas
     jogadas_validas = 1;
 
+    // mantem o codigo rodando ate nao ter mais jogadas validas
     while (jogadas_validas > 0) {
         // recebe as coordenadas da jogada
         printf("\nJogador %c, insira a linha e a coluna da sua jogada separadas por um espaco:", jogador);
@@ -228,8 +230,8 @@ void jogada(int tabuleiro[8][8], char jogador) {
         // mostra o tabuleiro atualizado
         mostra_tabuleiro(tabuleiro);
 
+        // essa parte verifica se existem jogadas validas para o adversario em qualquer casa do tabuleiro
         jogadas_validas = 0;
-
         for (i = 0; i < 8; i++) {
             for (j = 0; j < 8; j++) {
                 if (movimento_valido(tabuleiro,i,j,adversario) == true) {
@@ -238,8 +240,28 @@ void jogada(int tabuleiro[8][8], char jogador) {
             }
         }
 
-        // passa a vez para o adversario
-        jogador = adversario;
+        // essa parte eh usada caso o adversario nao tenha jogadas validas
+        // aqui verifica se tem jogadas disponiveis para o jogador atual
+        // se sim o jogo continua se nao ele acaba
+        if (jogadas_validas == 0) {
+            for (i = 0; i < 8; i++) {
+                for (j = 0; j < 8; j++) {
+                    if (movimento_valido(tabuleiro,i,j,jogador) == true) {
+                        // aqui esta igualando a -1 para diferenciar da jogada valida do adversario
+                        jogadas_validas = -1;
+                    }
+                }
+            }
+        }
+
+        // passa a vez para o adversario se ele tem jogada disponivel
+        // se nao continua no mesmo jogador
+        if (jogadas_validas > 0){
+            jogador = adversario;
+        }
+        else{
+            jogador = jogador;
+        }
     }
 }
 
@@ -256,7 +278,15 @@ int main() {
 
     jogada(tabuleiro, jogador);
 
-    printf("\n O jogador %c venceu!", jogador_vencedor(tabuleiro));
+    // mostra o vencedor e finaliza o jogo
+    if (jogador_vencedor(tabuleiro) == 0) {
+        printf("\nO jogo terminou empatado\nPressione qualquer tecla para sair");
+        getchar();
+    }
+    else {
+        printf("\nO Jogador %c venceu!\nPressione qualquer tecla para sair", jogador_vencedor(tabuleiro));
+        getchar();
+    }
 
     return 0;
 }
