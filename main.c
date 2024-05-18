@@ -280,13 +280,14 @@ int main() {
 
     // mostra o vencedor e finaliza o jogo
     if (jogador_vencedor(tabuleiro) == 0) {
-        printf("\nO jogo terminou empatado\nPressione qualquer tecla para sair");
-        getchar();
+        printf("\nO jogo terminou empatado");
     }
     else {
-        printf("\nO Jogador %c venceu!\nPressione qualquer tecla para sair", jogador_vencedor(tabuleiro));
-        getchar();
+        printf("\nO Jogador %c venceu!", jogador_vencedor(tabuleiro));
     }
+
+    printf("\nPressione qualquer tecla para sair");
+    scanf("%c");
 
     return 0;
 }
