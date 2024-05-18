@@ -1,3 +1,8 @@
+// Trabalho IPC - Jogo Othello
+// João Pedro Pereira Balieiro nUSP 12676615
+// João Vitor Valerio Simplicio nUSP 15744492
+// João Victor Pereira Lacerda nUSP 15463975
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -20,6 +25,8 @@ void cria_tabuleiro(int tabuleiro[8][8]) {
     tabuleiro[4][4] = 'B';
     tabuleiro[3][4] = 'P';
     tabuleiro[4][3] = 'P';
+
+    return;
 }
 
 // -------------------------------------------------------------
@@ -35,6 +42,7 @@ void limpa_tela() {
     #else
 
     #endif
+    return;
 }
 
 // -------------------------------------------------------------
@@ -75,6 +83,7 @@ void mostra_tabuleiro(int tabuleiro[8][8]) {
         }
         printf("\n");
     }
+    return;
 }
 
 // -------------------------------------------------------------
@@ -93,7 +102,7 @@ int movimento_valido(int tabuleiro[8][8], int linha, int coluna, char jogador) {
         return 0;
     }
 
-    // verifica em todas as direcoes se ha peças do oponente que podem ser capturadas
+    // verifica em todas as direcoes se ha pecas do oponente que podem ser capturadas
     for (i = -1; i <= 1; i++) {
         for (j = -1; j <= 1; j++) {
             // ignora a propria posicao e verifica apenas as direcoes
@@ -151,6 +160,7 @@ int jogador_vencedor(int tabuleiro[8][8]) {
     else if (jogador_branco < jogador_preto) {
         vencedor = 'P';
     }
+    // caso termine empatado a funcao retorna 0
     else {
         return 0;
     }
@@ -168,12 +178,12 @@ void jogada(int tabuleiro[8][8], char jogador) {
     // forca a comecar com as pecas pretas
     jogador = 'P';
 
-    // isso vai servir para iniciar o while
+    // isso serve para iniciar o while
     // depois o valor vai variar de acordo com as jogadas validas
     jogadas_validas = 1;
 
     // mantem o codigo rodando ate nao ter mais jogadas validas
-    while (jogadas_validas > 0) {
+    while (jogadas_validas != 0) {
         // recebe as coordenadas da jogada
         printf("\nJogador %c, insira a linha e a coluna da sua jogada separadas por um espaco:", jogador);
         scanf("%d %d", &linha, &coluna);
@@ -185,7 +195,7 @@ void jogada(int tabuleiro[8][8], char jogador) {
             continue;
         }
 
-        // limpa a tela apos cada movimento
+        // limpa a tela apos cada jogada
         limpa_tela();
 
         // salva a jogada na matriz
@@ -242,7 +252,7 @@ void jogada(int tabuleiro[8][8], char jogador) {
 
         // essa parte eh usada caso o adversario nao tenha jogadas validas
         // aqui verifica se tem jogadas disponiveis para o jogador atual
-        // se sim o jogo continua se nao ele acaba
+        // se sim o jogo continua, se nao ele acaba
         if (jogadas_validas == 0) {
             for (i = 0; i < 8; i++) {
                 for (j = 0; j < 8; j++) {
@@ -263,6 +273,7 @@ void jogada(int tabuleiro[8][8], char jogador) {
             jogador = jogador;
         }
     }
+    return;
 }
 
 // -------------------------------------------------------------
@@ -271,14 +282,18 @@ int main() {
     char jogador;
     int tabuleiro[8][8];
 
-    // comeca o jogo
-    cria_tabuleiro(tabuleiro);
+    printf("Bem vindo(a) ao jogo Othello!\n"
+           "As pecas pretas sao representadas pela letra P e as pecas brancas pela letra B\n"
+           "O jogador com as pecas pretas inicia o jogo\n\n");
 
+    // cria e mostra o tabuleiro inicial
+    cria_tabuleiro(tabuleiro);
     mostra_tabuleiro(tabuleiro);
 
+    // comeca o jogo pelo jogador preto e da sequencia nas jogadas
     jogada(tabuleiro, jogador);
 
-    // mostra o vencedor e finaliza o jogo
+    // mostra o vencedor ou se deu empate
     if (jogador_vencedor(tabuleiro) == 0) {
         printf("\nO jogo terminou empatado");
     }
@@ -286,7 +301,8 @@ int main() {
         printf("\nO Jogador %c venceu!", jogador_vencedor(tabuleiro));
     }
 
-    printf("\nPressione qualquer tecla para sair");
+    // finaliza o jogo
+    printf("\nDigite qualquer caracter para sair");
     scanf("%c");
 
     return 0;
