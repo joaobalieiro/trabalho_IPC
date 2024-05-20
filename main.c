@@ -175,9 +175,6 @@ void jogada(int tabuleiro[8][8], char jogador) {
     char adversario;
     int linha, coluna, tem_adversario, x, y, i, j, jogadas_validas;
 
-    // forca a comecar com as pecas pretas
-    jogador = 'P';
-
     // isso serve para iniciar o while
     // depois o valor vai variar de acordo com as jogadas validas
     jogadas_validas = 1;
@@ -289,6 +286,9 @@ int main() {
     // cria e mostra o tabuleiro inicial
     cria_tabuleiro(tabuleiro);
     mostra_tabuleiro(tabuleiro);
+
+    // forca a comecar com as pecas pretas
+    jogador = 'P';
 
     // comeca o jogo pelo jogador preto e da sequencia nas jogadas
     jogada(tabuleiro, jogador);
