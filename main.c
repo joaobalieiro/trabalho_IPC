@@ -279,7 +279,7 @@ void jogada(int tabuleiro[8][8], char jogador) {
 // -------------------------------------------------------------
 
 int main() {
-    char jogador;
+    char jogador, caracter_sair;
     int tabuleiro[8][8];
 
     printf("Bem vindo(a) ao jogo Othello!\n"
@@ -303,7 +303,7 @@ int main() {
 
     // finaliza o jogo
     printf("\nDigite qualquer caracter para sair");
-    scanf("%c");
+    scanf("%c", &caracter_sair);
 
     return 0;
 }
