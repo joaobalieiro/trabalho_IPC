@@ -170,8 +170,12 @@ int jogador_vencedor(int tabuleiro[8][8]) {
 
 // -------------------------------------------------------------
 
+// funcao para fazer a jogada do computador
+
+// -------------------------------------------------------------
+
 // verifica se a jogada eh valida e registra ela na matriz
-void jogada(int tabuleiro[8][8], char jogador) {
+void jogada(int tabuleiro[8][8], char jogador, int modo) {
     char adversario;
     int linha, coluna, tem_adversario, x, y, i, j, jogadas_validas;
 
@@ -181,10 +185,19 @@ void jogada(int tabuleiro[8][8], char jogador) {
 
     // mantem o codigo rodando ate nao ter mais jogadas validas
     while (jogadas_validas != 0) {
-        // recebe as coordenadas da jogada
-        printf("\nJogador %c, insira a linha e a coluna da sua jogada separadas por um espaco:", jogador);
-        scanf("%d %d", &linha, &coluna);
-        printf("\n");
+
+        if (modo == 2 && jogador == 'B') {
+            // aqui vai a funcao que o computador escolhe a jogada e devolve a linha e coluna
+            // como so pode voltar um valor por funcao da pra gente voltar com um valor de dois digitos
+            // o primeiro sendo a linha e o segundo a coluna ai eh so separar os digitos e atribuir
+            break;
+        }
+        else {
+            // recebe as coordenadas da jogada humana
+            printf("\nJogador %c, insira a linha e a coluna da sua jogada separadas por um espaco:", jogador);
+            scanf("%d %d", &linha, &coluna);
+            printf("\n");
+        }
 
         // verifica se as coordenadas são válidas
         if (movimento_valido(tabuleiro,linha,coluna,jogador) == false) {
@@ -277,11 +290,14 @@ void jogada(int tabuleiro[8][8], char jogador) {
 
 int main() {
     char jogador, caracter_sair;
-    int tabuleiro[8][8];
+    int tabuleiro[8][8], modo;
 
     printf("Bem vindo(a) ao jogo Othello!\n"
            "As pecas pretas sao representadas pela letra P e as pecas brancas pela letra B\n"
-           "O jogador com as pecas pretas inicia o jogo\n\n");
+           "O jogador com as pecas pretas inicia o jogo\n"
+           "Digite 1 para jogar no modo Humano X Humano, ou, digite 2 para jogar no modo Humano X Computador: ");
+    scanf("%d", &modo);
+    printf("\n");
 
     // cria e mostra o tabuleiro inicial
     cria_tabuleiro(tabuleiro);
@@ -291,7 +307,7 @@ int main() {
     jogador = 'P';
 
     // comeca o jogo pelo jogador preto e da sequencia nas jogadas
-    jogada(tabuleiro, jogador);
+    jogada(tabuleiro, jogador, modo);
 
     // mostra o vencedor ou se deu empate
     if (jogador_vencedor(tabuleiro) == 0) {
