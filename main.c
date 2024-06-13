@@ -404,7 +404,7 @@ int main() {
 
 
 
-int jogadas(int tabuleiro[8][8],char jogador){               //funcao que retorna as jogadas possiveis de um jogador
+int jogadasvalidas(int tabuleiro[8][8],char jogador){               //funcao que retorna as jogadas possiveis de um jogador
     int i, j;
     int count=0;
     for(i=0;i<8;i++){
@@ -415,24 +415,25 @@ int jogadas(int tabuleiro[8][8],char jogador){               //funcao que retorn
         }
     }
 
-    int *posicao_valida = (int**)malloc(count*sizeof(int *)); //nota: montar a matriz[2][count]
+    int **posicao_valida = (int**)malloc(2*sizeof(int *)); //nota: montar a matriz[2][count]
 
-    int k=0;
-    for(i=0;i<8;i++){                                         //preenche a matriz posicao_valida
-        for(j=0;j<8;j++){
-            if(movimento_valido(tabuleiro,i,j,jogador)==1){
-                 posicao_valida[0][k]=i;
-                 posicao_valida[1][k]=j;
+    if (posicao_valida == NULL){
+        printf("erro ao alocar memoria");
+        return(-1);
+    }
 
-            }
-       }
-
-   }
-   return posicao_valida;
+    for (i=0;i<count;i++){
+        posicao_valida[i] = (int*)malloc(count*sizeof(int));
+        if (posicao_valida[i] == NULL){
+            printf("erro ao alocar memoria");
+            return(-1);
+        }
+    }
 }
 
 int minimax(int* tabuleiro[8][8]){                       //simula a melhor jogada considerando que o adversario
     int i, j;                                           //sempre toma a melhor decisão depois de n rodadas
+    int
 
 
 
