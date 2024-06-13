@@ -397,14 +397,14 @@ int jogadasvalidas(int tabuleiro[8][8],char jogador){               //funcao que
 int minimax(int* tabuleiro[8][8], char jogador){                       //simula a melhor jogada considerando que o adversario
     int i, j, **validadas, *pecas, cont;                                           //sempre toma a melhor decisão depois de n rodadas
 
-    validadas = jogadasvalidas(tabuleiro, jogador);
+    validadas = jogadasvalidas(tabuleiro, jogador);         //matriz das jogadas atuais
 
     cont = 0;
     do{
         cont++;
     }while(validadas[0][cont]);
 
-    pecas = (int*)malloc(cont*sizeof(int));
+    pecas = (int*)malloc(cont*sizeof(int));              //vetor que conta o total de ganhas de cada jogada
     
     for(i=0;i<cont;i++){
         pecas[i]=quantpecas(tabuleiro, jogador, validadas[0][i],validadas[1][i]);
