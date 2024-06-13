@@ -390,10 +390,23 @@ int jogadasvalidas(int tabuleiro[8][8],char jogador){               //funcao que
             return(-1);
         }
     }
+
+    return(**posicao_valida);
 }
 
 int minimax(int* tabuleiro[8][8], char jogador){                       //simula a melhor jogada considerando que o adversario
-    int i, j;                                           //sempre toma a melhor decisão depois de n rodadas
+    int i, j, **validadas, *pecas, cont;                                           //sempre toma a melhor decisão depois de n rodadas
+
+    validadas = jogadasvalidas(tabuleiro, jogador);
+
+    cont = 0;
+    do{
+        cont++;
+    }while(validadas[0][cont]);
+
+    pecas = (int*)malloc(cont*sizeof(int));
+
+    
 
 }
 // -------------------------------------------------------------
