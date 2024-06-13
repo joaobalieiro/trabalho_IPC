@@ -410,8 +410,6 @@ int minimax(int* tabuleiro[8][8], char jogador){                       //simula 
         pecas[i]=quantpecas(tabuleiro, jogador, validadas[0][i],validadas[1][i]);
     }
 
-    //vamos ter que criar uma matriz Nx8x8, sendo ix8x8 a matriz da jogada i
-    //Depois de criar o tabuleiro, jogadasvalidas(adversario),quantpecas(jogadasvalidas), fazer a escolha que mais dá quantpecas, e subtrair de pecas
     
 
 
