@@ -208,6 +208,49 @@ int jogada_computador_coluna(int tabuleiro[8][8], char jogador) {
 
 // -------------------------------------------------------------
 
+int quantpecas(int tabuleiro[8][8], char jogador, int linha, int coluna){
+    int i, j, x, y, tem_adversario, k;
+    char adversario;
+
+    // define o adversario
+    adversario = (jogador == 'P') ? 'B' : 'P';
+
+    for (i = -1; i <= 1; i++) {
+        for (j = -1; j <= 1; j++) {
+            if (i == 0 && j == 0) {
+                continue;
+            }
+
+            x = linha + i;
+            y = coluna + j;
+            tem_adversario = 0;
+
+            while (x >= 0 && x < 8 && y >= 0 && y < 8 && tabuleiro[x][y] == adversario) {
+                x += i;
+                y += j;
+                tem_adversario = 1;
+            }
+
+            if (tem_adversario && x >= 0 && x < 8 && y >= 0 && y < 8 && tabuleiro[x][y] == jogador) {
+                // gira as peças do adversario
+                x -= i;
+                y -= j;
+                // captura as pecas do adversario
+                while (tabuleiro[x][y] == adversario) {
+                    tabuleiro[x][y] = jogador;
+                    k++;
+                    x -= i;
+                    y -= j;
+                }
+            }
+        }
+    }
+
+    return k;
+}
+
+// -------------------------------------------------------------
+
 // verifica se a jogada eh valida e registra ela na matriz
 void jogada(int tabuleiro[8][8], char jogador, int modo) {
     char adversario, l, c;
@@ -246,6 +289,8 @@ void jogada(int tabuleiro[8][8], char jogador, int modo) {
 
         // define o adversario
         adversario = (jogador == 'P') ? 'B' : 'P';
+
+        printf("o jogador tomou %d pecas", quantpecas(tabuleiro,jogador,linha,coluna));
 
         // faz o loop para verificar quais pecas podem ser capturadas
         // o codigo eh praticamente igual ao para verificar a validade do movimento
@@ -371,14 +416,14 @@ int jogadas(int tabuleiro[8][8],char jogador){               //funcao que retorn
     }
 
     int *posicao_valida = (int**)malloc(count*sizeof(int *)); //nota: montar a matriz[2][count]
-    
+
     int k=0;
     for(i=0;i<8;i++){                                         //preenche a matriz posicao_valida
         for(j=0;j<8;j++){
             if(movimento_valido(tabuleiro,i,j,jogador)==1){
                  posicao_valida[0][k]=i;
                  posicao_valida[1][k]=j;
-                
+
             }
        }
 
@@ -386,9 +431,9 @@ int jogadas(int tabuleiro[8][8],char jogador){               //funcao que retorn
    return posicao_valida;
 }
 
-int minimax(int* tabuleiro[8][8]){                       //simula a melhor jogada considerando que o adversario  
-    int i, j;                                           //sempre toma a melhor decisão depois de n rodadas  
+int minimax(int* tabuleiro[8][8]){                       //simula a melhor jogada considerando que o adversario
+    int i, j;                                           //sempre toma a melhor decisão depois de n rodadas
 
-    
+
 
 }
