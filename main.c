@@ -171,12 +171,46 @@ int jogador_vencedor(int tabuleiro[8][8]) {
 // -------------------------------------------------------------
 
 // funcao para fazer a jogada do computador
+int jogada_computador_linha(int tabuleiro[8][8], char jogador) {
+    int linha, coluna, i, j;
+
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            linha = i;
+            coluna = j;
+            if (movimento_valido(tabuleiro, linha, coluna, jogador) == true) {
+                return linha;
+            }
+        }
+    }
+
+    return 0;
+}
+
+// -------------------------------------------------------------
+
+// funcao para fazer a jogada do computador
+int jogada_computador_coluna(int tabuleiro[8][8], char jogador) {
+    int linha, coluna, i, j;
+
+
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            linha = i;
+            coluna = j;
+            if (movimento_valido(tabuleiro, linha, coluna, jogador) == true) {
+                return coluna;
+            }
+        }
+    }
+    return 0;
+}
 
 // -------------------------------------------------------------
 
 // verifica se a jogada eh valida e registra ela na matriz
 void jogada(int tabuleiro[8][8], char jogador, int modo) {
-    char adversario;
+    char adversario, l, c;
     int linha, coluna, tem_adversario, x, y, i, j, jogadas_validas;
 
     // isso serve para iniciar o while
@@ -187,10 +221,9 @@ void jogada(int tabuleiro[8][8], char jogador, int modo) {
     while (jogadas_validas != 0) {
 
         if (modo == 2 && jogador == 'B') {
-            // aqui vai a funcao que o computador escolhe a jogada e devolve a linha e coluna
-            // como so pode voltar um valor por funcao da pra gente voltar com um valor de dois digitos
-            // o primeiro sendo a linha e o segundo a coluna ai eh so separar os digitos e atribuir
-            break;
+            linha = jogada_computador_linha(tabuleiro,jogador);
+            coluna = jogada_computador_coluna(tabuleiro,jogador);
+            printf("\nO computador jogou na casa %d X %d\n\n", linha,coluna);
         }
         else {
             // recebe as coordenadas da jogada humana
