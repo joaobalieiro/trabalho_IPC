@@ -356,3 +356,39 @@ int main() {
 
     return 0;
 }
+
+
+
+int jogadas(int tabuleiro[8][8],char jogador){               //funcao que retorna as jogadas possiveis de um jogador
+    int i, j;
+    int count=0;
+    for(i=0;i<8;i++){
+        for(j=0;j<8;j++){
+            if(movimento_valido(tabuleiro,i,j,jogador)==1){
+                count++;
+            }
+        }
+    }
+
+    int *posicao_valida = (int**)malloc(count*sizeof(int *)); //nota: montar a matriz[2][count]
+    
+    int k=0;
+    for(i=0;i<8;i++){                                         //preenche a matriz posicao_valida
+        for(j=0;j<8;j++){
+            if(movimento_valido(tabuleiro,i,j,jogador)==1){
+                 posicao_valida[0][k]=i;
+                 posicao_valida[1][k]=j;
+                
+            }
+       }
+
+   }
+   return posicao_valida;
+}
+
+int minimax(int* tabuleiro[8][8]){                       //simula a melhor jogada considerando que o adversario  
+    int i, j;                                           //sempre toma a melhor decisão depois de n rodadas  
+
+    
+
+}
