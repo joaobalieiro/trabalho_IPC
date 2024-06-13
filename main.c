@@ -365,7 +365,38 @@ void jogada(int tabuleiro[8][8], char jogador, int modo) {
 }
 
 // -------------------------------------------------------------
+int jogadasvalidas(int tabuleiro[8][8],char jogador){               //funcao que retorna as jogadas possiveis de um jogador
+    int i, j;
+    int count=0;
+    for(i=0;i<8;i++){
+        for(j=0;j<8;j++){
+            if(movimento_valido(tabuleiro,i,j,jogador)==1){
+                count++;
+            }
+        }
+    }
 
+    int **posicao_valida = (int**)malloc(2*sizeof(int *)); //nota: montar a matriz[2][count]
+
+    if (posicao_valida == NULL){
+        printf("erro ao alocar memoria");
+        return(-1);
+    }
+
+    for (i=0;i<count;i++){
+        posicao_valida[i] = (int*)malloc(count*sizeof(int));
+        if (posicao_valida[i] == NULL){
+            printf("erro ao alocar memoria");
+            return(-1);
+        }
+    }
+}
+
+int minimax(int* tabuleiro[8][8], char jogador){                       //simula a melhor jogada considerando que o adversario
+    int i, j;                                           //sempre toma a melhor decisão depois de n rodadas
+
+}
+// -------------------------------------------------------------
 int main() {
     char jogador, caracter_sair;
     int tabuleiro[8][8], modo;
@@ -402,39 +433,3 @@ int main() {
     return 0;
 }
 
-
-
-int jogadasvalidas(int tabuleiro[8][8],char jogador){               //funcao que retorna as jogadas possiveis de um jogador
-    int i, j;
-    int count=0;
-    for(i=0;i<8;i++){
-        for(j=0;j<8;j++){
-            if(movimento_valido(tabuleiro,i,j,jogador)==1){
-                count++;
-            }
-        }
-    }
-
-    int **posicao_valida = (int**)malloc(2*sizeof(int *)); //nota: montar a matriz[2][count]
-
-    if (posicao_valida == NULL){
-        printf("erro ao alocar memoria");
-        return(-1);
-    }
-
-    for (i=0;i<count;i++){
-        posicao_valida[i] = (int*)malloc(count*sizeof(int));
-        if (posicao_valida[i] == NULL){
-            printf("erro ao alocar memoria");
-            return(-1);
-        }
-    }
-}
-
-int minimax(int* tabuleiro[8][8]){                       //simula a melhor jogada considerando que o adversario
-    int i, j;                                           //sempre toma a melhor decisão depois de n rodadas
-    int
-
-
-
-}
