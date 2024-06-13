@@ -394,7 +394,7 @@ int jogadasvalidas(int tabuleiro[8][8],char jogador){               //funcao que
     return(**posicao_valida);
 }
 
-int minimax(int* tabuleiro[8][8], char jogador){                       //simula a melhor jogada considerando que o adversario
+int minimax(int* tabuleiro[8][8], char jogador, char adversario){                       //simula a melhor jogada considerando que o adversario
     int i, j, **validadas, *pecas, cont;                                           //sempre toma a melhor decisão depois de n rodadas
 
     validadas = jogadasvalidas(tabuleiro, jogador);         //matriz das jogadas atuais
