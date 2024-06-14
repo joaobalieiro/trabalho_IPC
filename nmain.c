@@ -438,10 +438,10 @@ int minimax(int* tabuleiro[8][8], char jogador, char adversario){               
     int i, j, **validadas, *pecas, cont;                                           //toma a melhor decisao
     validadas = jogadasvalidas(tabuleiro, jogador);
 
-    cont = 0;                                                      //conta quantas jogadas ha
+    cont = 0;                                                      //conta quantas jogadas ha 
     do{
         cont++;
-    }while(validadas[0][cont]);
+    }while(validadas[0][cont]);                                    //nao ta funcionando, tem que encontrar uma condicao
 
     pecas = (int*)malloc(cont*sizeof(int));
     
@@ -459,7 +459,7 @@ int minimax(int* tabuleiro[8][8], char jogador, char adversario){               
         count = 0;
         do{
            count++;
-        }while(validadas_adv[0][cont]); //conta quantas jogadas validas o adversario tem
+        }while(validadas_adv[0][cont]); //conta quantas jogadas validas o adversario tem //tambem nao ta funcionando
         pecas_adv = (int*)malloc(count*sizeof(int));
         for(j=0;j<count;j++){
             pecas_adv[j]=quantpecas(tabuleiro,adversario,validadas_adv[0][j],validadas_adv[1][j]); //vetor das pecas ganhas de cada movimento do adversario
