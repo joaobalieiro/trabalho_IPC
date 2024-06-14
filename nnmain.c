@@ -270,7 +270,7 @@ int** jogadasvalidas(int** tabuleiro,char jogador){               //funcao que r
     }
 
     for (i=0;i<count;i++){
-        posicao_valida[i] = (int*)malloc(count*sizeof(int));
+        posicao_valida[i] = (int*)malloc((count+1)*sizeof(int));
         if (posicao_valida[i] == NULL){
             printf("erro ao alocar memoria");
             return 0;
@@ -280,12 +280,15 @@ int** jogadasvalidas(int** tabuleiro,char jogador){               //funcao que r
     for(i=0;i<2;i++){
         for(j=0;j<count;j++){
             if(movimento_valido(tabuleiro,i,j,jogador)==1){
-                posicao_valida[0][k]=i;
-                posicao_valida[1][k]=j;
+                posicao_valida[0][k+1]=i;
+                posicao_valida[1][k+1]=j;
                 k++;
             }
         }
     }
+
+    posicao_valida[0][0] = k;
+    posicao_valida[1][0] = 0;
 
     return posicao_valida;
 }
@@ -335,30 +338,24 @@ int* minimax(int** tabuleiro, char jogador, char adversario){                   
     int i, j, **validadas, *pecas, cont;                                           //toma a melhor decisao
     validadas = jogadasvalidas(tabuleiro, jogador);
 
-    cont = 0;                                                      //conta quantas jogadas ha
-    do{
-        cont++;
-    }while(validadas[0][cont]);
+    cont = validadas[0][0];
 
     pecas = (int*)malloc(cont*sizeof(int));
 
-    for(i=0;i<cont;i++){
-        pecas[i]=quantpecas(tabuleiro, jogador, validadas[0][i],validadas[1][i]);  //vetor que apresenta o numero de pecas conseguidos na i-esima casa na i-esima jogada
+    for(i=1;i<=cont;i++){
+        pecas[i-1]=quantpecas(tabuleiro, jogador, validadas[0][i],validadas[1][i]);  //vetor que apresenta o numero de pecas conseguidos na i-esima casa na i-esima jogada
     }
 
 
     int **tabuleiro_sim, count, *pecas_adv, **validadas_adv;
     int M=0;
-    for(i=0;i<cont;i++){  //dada a i-esima jogada, descobre qual jogada e mais benefica ao adversario e subtrai o numero de pecas conseguidas por voce pelas do adversario
-        tabuleiro_sim = jogada_sim(tabuleiro,jogador,validadas[0][i],validadas[1][i]); //cria um tabuleiro simulado a partir da i-esima jogada
+    for(i=0;i<=cont;i++){  //dada a i-esima jogada, descobre qual jogada e mais benefica ao adversario e subtrai o numero de pecas conseguidas por voce pelas do adversario
+        tabuleiro_sim = jogada_sim(tabuleiro,jogador,validadas[0][i+1],validadas[1][i+1]); //cria um tabuleiro simulado a partir da i-esima jogada
         validadas_adv = jogadasvalidas(tabuleiro_sim,adversario); //verifica as jogadas validas do adversario
-        count = 0;
-        do{
-            count++;
-        }while(validadas_adv[0][cont]); //conta quantas jogadas validas o adversario tem
+        count = validadas_adv[0][0]; //conta quantas jogadas validas o adversario tem
         pecas_adv = (int*)malloc(count*sizeof(int));
-        for(j=0;j<count;j++){
-            pecas_adv[j]=quantpecas(tabuleiro,adversario,validadas_adv[0][j],validadas_adv[1][j]); //vetor das pecas ganhas de cada movimento do adversario
+        for(j=1;j<=count;j++){
+            pecas_adv[j-1]=quantpecas(tabuleiro,adversario,validadas_adv[0][j],validadas_adv[1][j]); //vetor das pecas ganhas de cada movimento do adversario
         }
         for(j=0;j<count;j++){
             if(pecas_adv[j]>M){
