@@ -211,6 +211,7 @@ int quantpecas(int** tabuleiro, char jogador, int linha, int coluna){
 
 // -------------------------------------------------------------
 
+// retorna a quantidade maxima de pecas que o computador pode tomar de acordo com a jogada humana
 int pecastomadashumano(int** tabuleiro, int linha, int coluna){
     int i,j,pecas_tomadas_atual,pecas_tomadas_total,x,y,tem_adversario;
     char jogador = 'B';
@@ -238,7 +239,7 @@ int pecastomadashumano(int** tabuleiro, int linha, int coluna){
         }
     }
 
-    // executa a jogada no computador no tabuleiro simulado
+    // executa a jogada do computador no tabuleiro simulado
     for (i = -1; i <= 1; i++) {
         for (j = -1; j <= 1; j++) {
             if (i == 0 && j == 0) {
@@ -269,10 +270,9 @@ int pecastomadashumano(int** tabuleiro, int linha, int coluna){
         }
     }
 
-    // nessa parte verifica se uma jogada eh valida
-    // se ela for verifica quantas pecas sao tomadas
-    // depois comparadas com a quantidades total que da pra tomar de pecas
-    // ai salva as coordenadas da jogada que mais da pecas
+    // similar a funcao minimax a diferenca eh que agora eh uma possivel jogada humana
+    pecas_tomadas_total = 0;
+
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 8; j++) {
             if (movimento_valido(tabuleiro_simulado,i,j,adversario) == true) {
@@ -294,6 +294,9 @@ int pecastomadashumano(int** tabuleiro, int linha, int coluna){
 // ela retorna um vetor por isso a alocacao dinamica
 int* minimax(int** tabuleiro,char jogador){
     int i,j,linha,coluna,minmax_atual,minmax_total;
+
+    // comeca como - 64 pois eh o numero maximo de peca que se pode perder
+    minmax_total = -64;
 
     // nessa parte verifica se uma jogada eh valida
     // se ela for verifica quantas pecas sao tomadas
