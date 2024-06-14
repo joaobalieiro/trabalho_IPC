@@ -389,6 +389,16 @@ int** jogadasvalidas(int** tabuleiro,char jogador){               //funcao que r
             return 0;
         }
     }
+    int k=0;                  //associa as posicoes a matriz
+    for(i=0;i<2;i++){
+        for(j=0;j<count;j++){
+            if(movimento_valido(tabuleiro,i,j,jogador)==1){
+                posicao_valida[0][k]=i;
+                posicao_valida[1][k]=j;
+                k++;
+            }
+        }
+    }
 
     return posicao_valida;
 }
