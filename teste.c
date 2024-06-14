@@ -1,4 +1,7 @@
-//arquivo novo no caso de eu ter esquecido de adicionar algo no anterior
+// a minha ideia eh usar esse codigo como backup caso a gente nao consiga fazer o ideal
+// ele usa a minimax mas com apenas um passo
+// eu tambem alterei partes antigas para usar alocamento dinamico
+
 // Trabalho IPC - Jogo Othello
 // João Pedro Pereira Balieiro nUSP 12676615
 // João Vitor Valerio Simplicio nUSP 15744492
