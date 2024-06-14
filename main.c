@@ -405,15 +405,15 @@ int minimax(int* tabuleiro[8][8], char jogador, char adversario){               
     }while(validadas[0][cont]);
 
     pecas = (int*)malloc(cont*sizeof(int));              //vetor que conta o total de ganhas de cada jogada
-    
+
     for(i=0;i<cont;i++){
         pecas[i]=quantpecas(tabuleiro, jogador, validadas[0][i],validadas[1][i]);
     }
 
-    
 
 
-    
+
+
 
 }
 // -------------------------------------------------------------
