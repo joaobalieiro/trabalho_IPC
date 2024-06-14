@@ -451,7 +451,7 @@ int minimax(int* tabuleiro[8][8], char jogador, char adversario){               
     
 
 
-    int tabuleiro_sim, j, count, *pecas_adv, **validadas_adv;
+    int tabuleiro_sim, count, *pecas_adv, **validadas_adv;
     int M=0;
     for(i=0;i<cont;i++){  //dada a i-esima jogada, descobre qual jogada e mais benefica ao adversario e subtrai o numero de pecas conseguidas por voce pelas do adversario
         tabuleiro_sim=jogada_sim(tabuleiro,jogador,validadas[0][i],validadas[1][i]); //cria um tabuleiro simulado a partir da i-esima jogada
