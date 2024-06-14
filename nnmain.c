@@ -10,7 +10,7 @@
 // -------------------------------------------------------------
 
 // cria o tabuleiro com as peças nas posições iniciais
-void cria_tabuleiro(int tabuleiro[8][8]) {
+void cria_tabuleiro(int** tabuleiro) {
     int i, j;
 
     for (i = 0; i < 8; i++)
@@ -48,7 +48,7 @@ void limpa_tela() {
 // -------------------------------------------------------------
 
 // mostra o tabuleiro com as coordenadas
-void mostra_tabuleiro(int tabuleiro[8][8]) {
+void mostra_tabuleiro(int** tabuleiro) {
     int i,j;
 
     printf("  ");
@@ -88,7 +88,7 @@ void mostra_tabuleiro(int tabuleiro[8][8]) {
 
 // -------------------------------------------------------------
 
-int movimento_valido(int tabuleiro[8][8], int linha, int coluna, char jogador) {
+int movimento_valido(int** tabuleiro, int linha, int coluna, char jogador) {
     int i, j, x, y, tem_adversario;
     int adversario = (jogador == 'P') ? 'B' : 'P';
 
@@ -134,7 +134,7 @@ int movimento_valido(int tabuleiro[8][8], int linha, int coluna, char jogador) {
 // -------------------------------------------------------------
 
 // verifica quem eh o vencedor
-int jogador_vencedor(int tabuleiro[8][8]) {
+int jogador_vencedor(int** tabuleiro) {
     char vencedor;
     int i, j, jogador_preto, jogador_branco;
 
@@ -171,7 +171,7 @@ int jogador_vencedor(int tabuleiro[8][8]) {
 // -------------------------------------------------------------
 
 // funcao para fazer a jogada do computador
-int jogada_computador_linha(int tabuleiro[8][8], char jogador) {
+int jogada_computador_linha(int** tabuleiro, char jogador) {
     int linha, coluna, i, j;
 
     for (i = 0; i < 8; i++) {
@@ -190,7 +190,7 @@ int jogada_computador_linha(int tabuleiro[8][8], char jogador) {
 // -------------------------------------------------------------
 
 // funcao para fazer a jogada do computador
-int jogada_computador_coluna(int tabuleiro[8][8], char jogador) {
+int jogada_computador_coluna(int** tabuleiro, char jogador) {
     int linha, coluna, i, j;
 
 
@@ -208,7 +208,7 @@ int jogada_computador_coluna(int tabuleiro[8][8], char jogador) {
 
 // -------------------------------------------------------------
 
-int quantpecas(int tabuleiro[8][8], char jogador, int linha, int coluna){
+int quantpecas(int** tabuleiro, char jogador, int linha, int coluna){
     int i, j, x, y, tem_adversario, k;
     char adversario;
 
@@ -252,7 +252,7 @@ int quantpecas(int tabuleiro[8][8], char jogador, int linha, int coluna){
 // -------------------------------------------------------------
 
 // verifica se a jogada eh valida e registra ela na matriz
-void jogada(int tabuleiro[8][8], char jogador, int modo) {
+void jogada(int** tabuleiro, char jogador, int modo) {
     char adversario, l, c;
     int linha, coluna, tem_adversario, x, y, i, j, jogadas_validas;
 
@@ -365,7 +365,7 @@ void jogada(int tabuleiro[8][8], char jogador, int modo) {
 }
 
 // -------------------------------------------------------------
-int ** jogadasvalidas(int tabuleiro[8][8],char jogador){               //funcao que retorna as jogadas possiveis de um jogador
+int** jogadasvalidas(int** tabuleiro,char jogador){               //funcao que retorna as jogadas possiveis de um jogador
     int i, j;
     int count=0;
     for(i=0;i<8;i++){
@@ -379,23 +379,23 @@ int ** jogadasvalidas(int tabuleiro[8][8],char jogador){               //funcao 
     int **posicao_valida = (int**)malloc(2*sizeof(int *)); //cria a matriz [2][n]
     if (posicao_valida == NULL){
         printf("erro ao alocar memoria");
-        return(-1);
+        return 0;
     }
 
     for (i=0;i<count;i++){
         posicao_valida[i] = (int*)malloc(count*sizeof(int));
         if (posicao_valida[i] == NULL){
             printf("erro ao alocar memoria");
-            return(-1);
+            return 0;
         }
     }
 
-    return(**posicao_valida);
+    return posicao_valida;
 }
 
 
 
-int** jogada_sim(int tabuleiro[8][8], char jogador, int linha, int coluna) { //cria o tabuleiro novo para a simulacao
+int** jogada_sim(int** tabuleiro, char jogador, int linha, int coluna) { //cria o tabuleiro novo para a simulacao
     char adversario;
     int tem_adversario, x, y, i, j;
     
@@ -433,7 +433,8 @@ int** jogada_sim(int tabuleiro[8][8], char jogador, int linha, int coluna) { //c
     
     return tabuleiro;
 }
-int minimax(int* tabuleiro[8][8], char jogador, char adversario){                   //simula a melhor jogada considerando que o adversario
+
+int* minimax(int** tabuleiro, char jogador, char adversario){                   //simula a melhor jogada considerando que o adversario
     int i, j, **validadas, *pecas, cont;                                           //toma a melhor decisao
     validadas = jogadasvalidas(tabuleiro, jogador);
 
@@ -449,11 +450,10 @@ int minimax(int* tabuleiro[8][8], char jogador, char adversario){               
     }
     
 
-
-    int tabuleiro_sim, j, count, *pecas_adv, **validadas_adv;
+    int **tabuleiro_sim, count, *pecas_adv, **validadas_adv;
     int M=0;
     for(i=0;i<cont;i++){  //dada a i-esima jogada, descobre qual jogada e mais benefica ao adversario e subtrai o numero de pecas conseguidas por voce pelas do adversario
-        tabuleiro_sim=jogada_sim(tabuleiro,jogador,validadas[0][i],validadas[1][i]); //cria um tabuleiro simulado a partir da i-esima jogada
+        tabuleiro_sim = jogada_sim(tabuleiro,jogador,validadas[0][i],validadas[1][i]); //cria um tabuleiro simulado a partir da i-esima jogada
         validadas_adv = jogadasvalidas(tabuleiro_sim,adversario); //verifica as jogadas validas do adversario
         count = 0;
         do{
@@ -477,6 +477,7 @@ int minimax(int* tabuleiro[8][8], char jogador, char adversario){               
             M=pecas[i]; //maior numero de pecas apos a jogada do computador e do adversario
         }
     }
+
     int posicao[2];
     posicao[0]=validadas[0][M];
     posicao[1]=validadas[1][M];
@@ -485,7 +486,12 @@ int minimax(int* tabuleiro[8][8], char jogador, char adversario){               
 // -------------------------------------------------------------
 int main() {
     char jogador, caracter_sair;
-    int tabuleiro[8][8], modo;
+    int** tabuleiro, modo, i;
+
+    tabuleiro = (int **) malloc(8*sizeof(int *));
+    for (i = 0; i < 8; i++) {
+        tabuleiro[i] = (int*) malloc(8*sizeof(int));
+    }
 
     printf("Bem vindo(a) ao jogo Othello!\n"
            "As pecas pretas sao representadas pela letra P e as pecas brancas pela letra B\n"
@@ -516,5 +522,6 @@ int main() {
     printf("\nDigite qualquer caracter para sair");
     scanf("%c", &caracter_sair);
 
+    free(tabuleiro);
     return 0;
 }
