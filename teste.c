@@ -1,4 +1,4 @@
-// arquivo teste para algumas ideias
+//arquivo novo no caso de eu ter esquecido de adicionar algo no anterior
 // Trabalho IPC - Jogo Othello
 // João Pedro Pereira Balieiro nUSP 12676615
 // João Vitor Valerio Simplicio nUSP 15744492
@@ -211,12 +211,89 @@ int quantpecas(int** tabuleiro, char jogador, int linha, int coluna){
 
 // -------------------------------------------------------------
 
+int pecastomadashumano(int** tabuleiro, int linha, int coluna){
+    int i,j,pecas_tomadas_atual,pecas_tomadas_total,x,y,tem_adversario;
+    char jogador = 'B';
+    char adversario = 'P';
+
+    int** tabuleiro_simulado = (int **) malloc(8*sizeof(int *));
+    for (i = 0; i < 8; i++) {
+        tabuleiro_simulado[i] = (int*) malloc(8*sizeof(int));
+    }
+
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            // verifica qual caracter colocar em cada posicao no novo tabuleiro
+            switch (tabuleiro[i][j]) {
+                case ' ':
+                    tabuleiro_simulado[i][j] = ' ';
+                    break;
+                case 'P':
+                    tabuleiro_simulado[i][j] = 'P';
+                    break;
+                case 'B':
+                    tabuleiro_simulado[i][j] = 'B';
+                    break;
+            }
+        }
+    }
+
+    // executa a jogada no computador no tabuleiro simulado
+    for (i = -1; i <= 1; i++) {
+        for (j = -1; j <= 1; j++) {
+            if (i == 0 && j == 0) {
+                continue;
+            }
+
+            x = linha + i;
+            y = coluna + j;
+            tem_adversario = 0;
+
+            while (x >= 0 && x < 8 && y >= 0 && y < 8 && tabuleiro_simulado[x][y] == adversario) {
+                x += i;
+                y += j;
+                tem_adversario = 1;
+            }
+
+            if (tem_adversario && x >= 0 && x < 8 && y >= 0 && y < 8 && tabuleiro_simulado[x][y] == jogador) {
+                // gira as peças do adversario
+                x -= i;
+                y -= j;
+                // captura as pecas do adversario
+                while (tabuleiro_simulado[x][y] == adversario) {
+                    tabuleiro_simulado[x][y] = jogador;
+                    x -= i;
+                    y -= j;
+                }
+            }
+        }
+    }
+
+    // nessa parte verifica se uma jogada eh valida
+    // se ela for verifica quantas pecas sao tomadas
+    // depois comparadas com a quantidades total que da pra tomar de pecas
+    // ai salva as coordenadas da jogada que mais da pecas
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            if (movimento_valido(tabuleiro_simulado,i,j,adversario) == true) {
+                pecas_tomadas_atual = quantpecas(tabuleiro_simulado,adversario,i,j);
+                if (pecas_tomadas_atual > pecas_tomadas_total) {
+                    pecas_tomadas_total = pecas_tomadas_atual;
+                }
+            }
+        }
+    }
+
+    free(tabuleiro_simulado);
+    return pecas_tomadas_total;
+}
+
+// -------------------------------------------------------------
+
 // funcao para ver qual jogada da mais pecas para o computador
 // ela retorna um vetor por isso a alocacao dinamica
 int* minimax(int** tabuleiro,char jogador){
-    int i,j,pecas_tomadas_atual,pecas_tomadas_total,linha,coluna;
-
-    pecas_tomadas_total = 0;
+    int i,j,linha,coluna,minmax_atual,minmax_total;
 
     // nessa parte verifica se uma jogada eh valida
     // se ela for verifica quantas pecas sao tomadas
@@ -225,8 +302,9 @@ int* minimax(int** tabuleiro,char jogador){
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 8; j++) {
             if (movimento_valido(tabuleiro,i,j,jogador) == true) {
-                pecas_tomadas_atual = quantpecas(tabuleiro,jogador,i,j);
-                if (pecas_tomadas_atual > pecas_tomadas_total) {
+                minmax_atual = quantpecas(tabuleiro,jogador,i,j) - pecastomadashumano(tabuleiro,i,j);
+                if (minmax_atual > minmax_total) {
+                    minmax_total = minmax_atual;
                     linha = i;
                     coluna = j;
                 }
